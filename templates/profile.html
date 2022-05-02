@@ -2,7 +2,7 @@
 {% block title %} Profile {% endblock %}
 
 {% macro playstats(map) %}
-<% map['beatmap']['diff_mods'].toFixed(2) %>* <% ("+" + map[`mods_readable`] + " ").replace("NM", "").replace("RXNC", "NCRX").replace("APNC", "NCAP").replace("HDHRNC", "HDNCHR").replace("NFNC", "NCNF").replace("DTNC", "NC").replace("+ ", " ") %><% map[`combo`] %>x <div style="display: inline-block;" v-if="map[`fc`] == 1">FC</div> [ <span style="color: rgb(178, 219, 232);">⬤</span> <% addCommas(map[`n300`]) %><b>/</b> <span style="color: rgb(172, 235, 140);">⬤</span> <% addCommas(map[`n100`]) %><b>/</b> <span style="color: rgb(232, 213, 167);">⬤</span> <% addCommas(map[`n50`]) %><b>/</b> <span style="color: rgb(254, 179, 179);">⬤</span> <% addCommas(map[`nmiss`]) %> ]
+<% getStarRating(map) %> <%("+" + map[`mods_readable`] + " ").replace("NM", "").replace("RXNC", "NCRX").replace("APNC", "NCAP").replace("HDHRNC", "HDNCHR").replace("NFNC", "NCNF").replace("DTNC", "NC").replace("+ ", " ") %><% map[`combo`] %>x <div style="display: inline-block;" v-if="map[`fc`] == 1">FC</div> [ <span style="color: rgb(178, 219, 232);">⬤</span> <% addCommas(map[`n300`]) %><b>/</b> <span style="color: rgb(172, 235, 140);">⬤</span> <% addCommas(map[`n100`]) %><b>/</b> <span style="color: rgb(232, 213, 167);">⬤</span> <% addCommas(map[`n50`]) %><b>/</b> <span style="color: rgb(254, 179, 179);">⬤</span> <% addCommas(map[`nmiss`]) %> ]
 {% endmacro %}
 
 {% macro scores(title, id) %}

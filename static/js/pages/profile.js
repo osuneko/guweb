@@ -53,6 +53,17 @@ new Vue({
         this.LoadUserStatus();
     },
     methods: {
+        getStarRating(map) {
+            if (map['beatmap']['diff_mods'] > 0) 
+            {
+                return map['beatmap']['diff_mods'].toFixed(2) + "*"
+            } 
+            else 
+            {
+                isNMrating = map['beatmap']['mods'] & 1 << 1 || map['beatmap']['mods'] & 1 << 4 || map['beatmap']['mods'] & 1 << 6 || map['beatmap']['mods'] & 1 << 8
+                return map['beatmap']['diff'].toFixed(2) + "*" + (isNMrating ? "" : " (NM)")
+            }
+        },
         LoadAllofdata() {
             this.LoadMostBeatmaps();
             this.LoadScores('best');
