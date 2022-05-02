@@ -553,10 +553,11 @@ async def register_post():
     # (end of lock)
 
     if glob.config.debug:
-        log(f'{username} has registered - awaiting verification.', Ansi.LGREEN)
+        log(f'{username} has registered.', Ansi.LGREEN)
+        #log(f'{username} has registered - awaiting verification.', Ansi.LGREEN)
 
     # user has successfully registered
-    return await render_template('verify.html')
+    return await flash('error', "Registration successful! Please login again.", 'login')
 
 @frontend.route('/logout')
 async def logout():
