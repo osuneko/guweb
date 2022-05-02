@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %} 404 {% endblock %}
+
+{% block header %}
+<link rel="stylesheet" href="/static/css/pages/404.css">
+<style>html {--main: 355;}</style>
+{% endblock %}
+
+{% block content %}
+<div class="main-block">
+	<div class="title-block">
+		<h2 class="error-title">
+			Forgot Password
+		</h2>
+	</div>
+	<div class="error-block">
+		<h3 class="error-subtitle">You forgot your password? Dont worry!</h3>
+    	<li>Please join our Discord and reach out to us in the #help channel!</li>
+		<li>It's a pleasure for us to help you there.</li>
+		<br>
+	   	<li>You can join the Discord <a href="/discord">here</a>.</li>
+	</div>
+</div>
+{% endblock %}
