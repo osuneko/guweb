@@ -18,7 +18,7 @@ from cmyui.version import Version
 from objects import glob
 
 app = Quart(__name__)
-app.config["PERMANENT_SESSION_LIFETIME"] = 86300
+app.config["PERMANENT_SESSION_LIFETIME"] = 86300000
 
 version = Version(1, 3, 0)
 
