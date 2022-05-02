@@ -400,10 +400,10 @@ async def login_post():
         bcrypt_cache[pw_bcrypt] = pw_md5
 
     # user not verified; render verify
-    if not user_info['priv'] & Privileges.Verified:
-        if glob.config.debug:
-            log(f"{username}'s login failed - not verified.", Ansi.LYELLOW)
-        return await render_template('verify.html')
+    #if not user_info['priv'] & Privileges.Verified:
+    #  if glob.config.debug:
+    #    log(f"{username}'s login failed - not verified.", Ansi.LYELLOW)
+    #  return await render_template('verify.html')
 
     # user banned; deny post
     if not user_info['priv'] & Privileges.Normal:
