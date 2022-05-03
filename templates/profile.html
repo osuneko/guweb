@@ -5,19 +5,19 @@
 <!-- Google / Search Engine Tags -->
 <meta itemprop="name" content="{{ user['name'] }}'s Profile - cs0su">
 <meta itemprop="description" content="{{ user['name'] }}'s profile on cs0su - An osu! private server with many unique features!">
-<meta itemprop="image" content="http://a.cs0su.net/3">
+<meta itemprop="image" content="http://a.cs0su.net/{{ user['id'] }}">
 
 <!-- Facebook Meta Tags -->
-<meta property="og:url" content="https://cs0su.net/u/3">
+<meta property="og:url" content="https://cs0su.net/u/{{ user['id'] }}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{{ user['name'] }}'s Profile - cs0su">
 <meta property="og:description" content="{{ user['name'] }}'s profile on cs0su - An osu! private server with many unique features!">
-<meta property="og:image" content="http://a.cs0su.net/3">
+<meta property="og:image" content="http://a.cs0su.net/{{ user['id'] }}">
 
 <!-- Twitter Meta Tags -->
 <meta name="twitter:title" content="{{ user['name'] }}'s Profile - cs0su">
 <meta name="twitter:description" content="{{ user['name'] }}'s profile on cs0su - An osu! private server with many unique features!">
-<meta name="twitter:image" content="http://a.cs0su.net/3">
+<meta name="twitter:image" content="http://a.cs0su.net/{{ user['id'] }}">
 
 {% extends 'base.html' %}
 {% block title %} Profile {% endblock %}
