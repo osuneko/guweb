@@ -27,6 +27,7 @@ html {
 .main-block {
   width: inherit;
   background: hsl(var(--main), 10%, 15%);
+
 }
 
 /* stuffs */
