@@ -180,6 +180,18 @@ a.foot-link {
   font-weight: 500;
 }
 
+.logo {
+  background-image: url(/static/favicon/android-chrome-256x256.png);
+  background-repeat: no-repeat;
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  right: 4px;
+  background-size: contain;
+}
+
 .navbar.is-spaced {
   padding: 0rem 2rem;
 }
