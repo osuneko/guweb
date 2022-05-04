@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %} Verification {% endblock %}
+
+{% block header %}
+<link rel="stylesheet" href="/static/css/pages/info.css">
+<style>html {--main: 120;}</style>
+{% endblock %}
+
+{% block content %}
+<div class="main-block">
+	<div class="title-block">
+		<h2 class="error-title">
+			Verification successful!
+		</h2>
+	</div>
+	<div class="error-block">
+		<h3 class="error-subtitle">Your account was successfully linked with Discord!</h3>
+		<center>
+			<li>You can close the window now.</li>
+			<br>
+	    	<h3 class="error-subtitle">{{ name }}</h3>
+			<div class="avatar" style="background-image: url('https://cdn.discordapp.com/avatars/{{ id }}/{{ avatar_id }}.png')"></div>
+	    </center>
+	</div>
+</div>
+{% endblock %}
+
+<style>
+	.avatar {
+		background-repeat: no-repeat;
+        width: 128px;
+        height: 128px;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        background-size: contain;
+	}
+</style>

@@ -48,6 +48,10 @@ async def home():
 async def forgot():
     return await render_template('forgot.html')
 
+@frontend.route('/verification_successful')
+async def verification_successful():
+    return await render_template('verification_successful.html', name=request.args.get("name"), id=request.args.get("id"), avatar_id=request.args.get("avatar_id"))
+
 @frontend.route('/home/account/edit')
 async def home_account_edit():
     return redirect('/settings/profile')
