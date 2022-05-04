@@ -3,23 +3,20 @@
 
 {% block header %}
 <link rel="stylesheet" href="/static/css/pages/info.css">
-<style>html {--main: 120;}</style>
+<style>html {--main: 355;}</style>
 {% endblock %}
 
 {% block content %}
 <div class="main-block">
 	<div class="title-block">
 		<h2 class="error-title">
-			Verification successful!
+			Verification failed!
 		</h2>
 	</div>
 	<div class="error-block">
-		<h3 class="error-subtitle">Your account was successfully linked with Discord!</h3>
+		<h3 class="error-subtitle">{{ error }}</h3>
 		<center>
-			<li>You can close the window now.</li>
-			<br>
-	    	<h3 class="error-subtitle">{{ name }}</h3>
-			<img class="avatar" src="https://cdn.discordapp.com/avatars/{{ id }}/{{ avatar }}.png"></img>
+			<li>If this issue persists and you think this is not supposed to happen, please contact us on <a href="/discord">Discord</a>.</li>
 	    </center>
 	</div>
 </div>
