@@ -1,23 +1,23 @@
 <!-- HTML Meta Tags -->
-<title>minisbett's Profile - cs0su</title>
-<meta name="description" content="{{ user['name'] }}'s profile on cs0su - An osu! private server with many unique features!">
+<title>minisbett's Profile - {{ appName() }}</title>
+<meta name="description" content="{{ user['name'] }}'s profile on {{ appName() }} - An osu! private server with many unique features!">
 
 <!-- Google / Search Engine Tags -->
-<meta itemprop="name" content="{{ user['name'] }}'s Profile - cs0su">
-<meta itemprop="description" content="{{ user['name'] }}'s profile on cs0su - An osu! private server with many unique features!">
-<meta itemprop="image" content="http://a.cs0su.net/{{ user['id'] }}">
+<meta itemprop="name" content="{{ user['name'] }}'s Profile - {{ appName() }}">
+<meta itemprop="description" content="{{ user['name'] }}'s profile on {{ appName() }} - An osu! private server with many unique features!">
+<meta itemprop="image" content="http://a.{{ domain() }}/{{ user['id'] }}">
 
 <!-- Facebook Meta Tags -->
-<meta property="og:url" content="https://cs0su.net/u/{{ user['id'] }}">
+<meta property="og:url" content="https://{{ domain() }}/u/{{ user['id'] }}">
 <meta property="og:type" content="website">
-<meta property="og:title" content="{{ user['name'] }}'s Profile - cs0su">
-<meta property="og:description" content="{{ user['name'] }}'s profile on cs0su - An osu! private server with many unique features!">
-<meta property="og:image" content="http://a.cs0su.net/{{ user['id'] }}">
+<meta property="og:title" content="{{ user['name'] }}'s Profile - {{ appName() }}">
+<meta property="og:description" content="{{ user['name'] }}'s profile on {{ appName() }} - An osu! private server with many unique features!">
+<meta property="og:image" content="http://a.{{ domain() }}/{{ user['id'] }}">
 
 <!-- Twitter Meta Tags -->
-<meta name="twitter:title" content="{{ user['name'] }}'s Profile - cs0su">
-<meta name="twitter:description" content="{{ user['name'] }}'s profile on cs0su - An osu! private server with many unique features!">
-<meta name="twitter:image" content="http://a.cs0su.net/{{ user['id'] }}">
+<meta name="twitter:title" content="{{ user['name'] }}'s Profile - {{ appName() }}">
+<meta name="twitter:description" content="{{ user['name'] }}'s profile on {{ appName() }} - An osu! private server with many unique features!">
+<meta name="twitter:image" content="http://a.{{ domain() }}/{{ user['id'] }}">
 
 {% extends 'base.html' %}
 {% block title %} Profile {% endblock %}

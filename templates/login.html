@@ -1,23 +1,23 @@
 <!-- HTML Meta Tags -->
-<title>Login - cs0su</title>
-<meta name="description" content="Log onto cs0su - An osu! private server with many unique features!">
+<title>Login - {{ appName() }}</title>
+<meta name="description" content="Log onto {{ appName() }} - An osu! private server with many unique features!">
 
 <!-- Google / Search Engine Tags -->
-<meta itemprop="name" content="Login - cs0su">
-<meta itemprop="description" content="Log onto cs0su - An osu! private server with many unique features!">
-<meta itemprop="image" content="http://cs0su.net/static/favicon/android-chrome-256x256.png">
+<meta itemprop="name" content="Login - {{ appName() }}">
+<meta itemprop="description" content="Log onto {{ appName() }} - An osu! private server with many unique features!">
+<meta itemprop="image" content="http://{{ domain() }}/static/favicon/android-chrome-256x256.png">
 
 <!-- Facebook Meta Tags -->
-<meta property="og:url" content="https://cs0su.net/login">
+<meta property="og:url" content="https://{{ domain() }}/login">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Login - cs0su">
-<meta property="og:description" content="Log onto cs0su - An osu! private server with many unique features!">
-<meta property="og:image" content="http://cs0su.net/static/favicon/android-chrome-256x256.png">
+<meta property="og:title" content="Login - {{ appName() }}">
+<meta property="og:description" content="Log onto {{ appName() }} - An osu! private server with many unique features!">
+<meta property="og:image" content="http://{{ domain() }}/static/favicon/android-chrome-256x256.png">
 
 <!-- Twitter Meta Tags -->
-<meta name="twitter:title" content="Login - cs0su">
-<meta name="twitter:description" content="Log onto cs0su - An osu! private server with many unique features!">
-<meta name="twitter:image" content="http://cs0su.net/static/favicon/android-chrome-256x256.png">
+<meta name="twitter:title" content="Login - {{ appName() }}">
+<meta name="twitter:description" content="Log onto {{ appName() }} - An osu! private server with many unique features!">
+<meta name="twitter:image" content="http://{{ domain() }}/static/favicon/android-chrome-256x256.png">
 
 {% extends "base.html" %}
 {% block title %} Login {% endblock %}

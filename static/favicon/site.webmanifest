@@ -1,6 +1,6 @@
 {
-    "name": "cs0su",
-    "short_name": "cs0su",
+    "name": "guweb",
+    "short_name": "guweb",
     "icons": [
         {
             "src": "/static/favicon/android-chrome-192x192.png",
