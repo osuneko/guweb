@@ -26,7 +26,7 @@ from objects.privileges import Privileges
 from objects.utils import flash
 from objects.utils import flash_with_customizations
 
-VALID_MODES = frozenset({'std', 'taiko', 'catch', 'mania'})
+VALID_MODES = frozenset({'std', 'taiko', 'catch', 'mania', 'cs0'})
 VALID_MODS = frozenset({'vn', 'rx', 'ap'})
 
 frontend = Blueprint('frontend', __name__)
@@ -560,6 +560,9 @@ async def register_post():
                     5,  # rx!taiko
                     6,  # rx!catch
                     8,  # ap!std
+                    12,  # vn!cs0
+                    13,  # rx!cs0
+                    14,  # ap!cs0
                 )]
             )
 

@@ -65,10 +65,13 @@ new Vue({
                 case 'taiko|vn': return 1;
                 case 'catch|vn': return 2;
                 case 'mania|vn': return 3;
-                case 'std|rx': return 4;
-                case 'taiko|rx': return 5;
-                case 'catch|rx': return 6;
-                case 'std|ap': return 8;
+                case 'cs0|vn': return 4;
+                case 'std|rx': return 5;
+                case 'taiko|rx': return 6;
+                case 'catch|rx': return 7;
+                case 'cs0|rx': return 9;
+                case 'std|ap': return 10;
+                case 'cs0|ap': return 14;
                 default: return -1;
             }
         },

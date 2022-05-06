@@ -47,7 +47,8 @@ _str_mode_dict = {
     'std': 0,
     'taiko': 1,
     'catch': 2,
-    'mania': 3
+    'mania': 3,
+    'cs0': 4
 }
 
 def convert_mode_str(mode: int) -> Optional[str]:
@@ -61,7 +62,8 @@ _mode_str_dict = {
     0: 'std',
     1: 'taiko',
     2: 'catch',
-    3: 'mania'
+    3: 'mania',
+    4: 'cs0'
 }
 
 async def fetch_geoloc(ip: str) -> str:

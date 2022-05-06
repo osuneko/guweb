@@ -56,6 +56,10 @@
             @click="LoadLeaderboard(sort, 'mania', mods)">
                 <i class="mode-icon mode-mania"></i><span class="modetext"> osu!mania</span>
             </a>
+            <a class="mode-select" v-bind:class="{ 'active': mode === 'cs0' }"
+            @click="LoadLeaderboard(sort, 'cs0', mods)">
+                <i class="mode-icon mode-osu"></i><span class="modetext"> osu!cs0</span>
+            </a>
         </div>
         <div class="banner-text">Leaderboard</div>
         <div class="selector">
