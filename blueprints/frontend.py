@@ -341,8 +341,23 @@ async def profile_select(id):
     if not user_data or not (user_data['priv'] & Privileges.Normal or is_staff):
         return (await render_template('404.html'), 404)
 
+    badges = []
+
+    if user_data["priv"] & Privileges.Dangerous:
+        badges.append(("Developer", "fa-code", 7))
+    if user_data["priv"] & Privileges.Admin:
+        badges.append(("Administrator", "fa-user", 9.6))
+    if user_data["priv"] & Privileges.Mod:
+        badges.append(("Moderator", "fa-user-check", 8))
+    if user_data["priv"] & Privileges.Nominator:
+        badges.append(("Nominator", "fa-pen", 9))
+    if user_data["priv"] & Privileges.Supporter:
+        badges.append(("Donator", "fa-dollar-sign", 11.4))
+    if user_data["priv"] & Privileges.Whitelisted:
+        badges.append(("Verified", "fa-check", 9.6))
+
     user_data['customisation'] = utils.has_profile_customizations(user_data['id'])
-    return await render_template('profile.html', user=user_data, mode=mode, mods=mods)
+    return await render_template('profile.html', user=user_data, mode=mode, mods=mods, badges=badges)
 
 
 @frontend.route('/leaderboard')

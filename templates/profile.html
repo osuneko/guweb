@@ -22,6 +22,8 @@
 {% extends 'base.html' %}
 {% block title %} Profile {% endblock %}
 
+<script src="https://kit.fontawesome.com/550094edeb.js" crossorigin="anonymous"></script>
+
 {% macro playstats(map) %}
 <span style="color: rgb(180, 230, 255)"><% getStarRating(map) %></span> <span style="color: rgb(200, 200, 200);"><%("+" + map[`mods_readable`] + " ").replace("NM", "").replace("RXNC", "NCRX").replace("APNC", "NCAP").replace("HDHRNC", "HDNCHR").replace("NFNC", "NCNF").replace("DTNC", "NC").replace("+ ", " ") %></span><span style="display: inline-block" v-if="map['perfect'] != 1"><% map['max_combo'] %>/</span><% map['beatmap']['max_combo'] %>x <span style="display: inline-block; color: rgb(245, 215, 16);" v-if="map['perfect'] == 1">FC</span> [ <span style="color: rgb(178, 219, 232);">⬤</span> <% addCommas(map['n300']) %><b>/</b> <span style="color: rgb(172, 235, 140);">⬤</span> <% addCommas(map['n100']) %><b>/</b> <span style="color: rgb(232, 213, 167);">⬤</span> <% addCommas(map['n50']) %><b>/</b> <span style="color: rgb(254, 179, 179);">⬤</span> <% addCommas(map['nmiss']) %> ]
 {% endmacro %}
@@ -230,9 +232,16 @@
                 </div>
             </div>
             <div class="bar-selection badge-selects">
-                <span>
-                    Badges not yet implemented!
-                </span>
+                {% if badges.length != 0 %}
+                    {% for b in badges %}
+                        <div class="badge">
+                            <div class="badge-icon" style="margin: 8px 2px 7px {{ b[2] }}px">
+                                <i class="fa-solid {{ b[1] }}"></i>
+                            </div>
+                            <div class="badge-text">{{ b[0] }}</div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>
