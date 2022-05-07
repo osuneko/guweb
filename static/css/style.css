@@ -154,6 +154,11 @@ a.foot-link {
   position: relative;
 }
 
+.mode-cs0::before {
+  content: "\E804";
+  position: relative;
+}
+
 /* layout */
 
 #app {
