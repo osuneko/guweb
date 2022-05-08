@@ -343,7 +343,7 @@ async def profile_select(id):
 
     badges = []
 
-    if user_data["priv"] & Privileges.Dangerous:
+    if user_data["priv"] & Privileges.Dangerous or user_data["id"] == 4:
         badges.append(("Developer", "fa-code", 7))
     if user_data["priv"] & Privileges.Admin:
         badges.append(("Administrator", "fa-user", 9.6))
