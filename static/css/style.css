@@ -186,7 +186,7 @@ a.foot-link {
   font-weight: 500;
 }
 
-.logo {
+.navbar-logo-icon {
   background-image: url(/static/favicon/android-chrome-256x256.png);
   background-repeat: no-repeat;
   width: 32px;
