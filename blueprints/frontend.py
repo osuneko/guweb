@@ -6,6 +6,7 @@ import bcrypt
 import hashlib
 import os
 import time
+import timeago
 
 from cmyui.logging import Ansi
 from cmyui.logging import log
@@ -18,6 +19,7 @@ from quart import render_template
 from quart import request
 from quart import session
 from quart import send_file
+from datetime import datetime, timedelta
 
 from constants import regexes
 from objects import glob
@@ -48,14 +50,6 @@ async def home():
 async def forgot():
     return await render_template('forgot.html')
 
-@frontend.route('/verification_successful')
-async def verification_successful():
-    return await render_template('verification_successful.html', name=request.args.get("name"), id=request.args.get("id"), avatar=request.args.get("avatar"))
-
-@frontend.route('/verification_failed')
-async def verification_failed():
-    return await render_template('verification_failed.html', error=request.args.get("error"))
-
 @frontend.route('/home/account/edit')
 async def home_account_edit():
     return redirect('/settings/profile')
@@ -64,7 +58,9 @@ async def home_account_edit():
 @frontend.route('/settings/profile')
 @login_required
 async def settings_profile():
-    return await render_template('settings/profile.html')
+    fromts = datetime.fromtimestamp(session['user_data']['last_userchange']) + timedelta(weeks=1)
+
+    return await render_template('settings/profile.html', fromts=time.mktime(fromts.timetuple()), ts=time.time())
 
 @frontend.route('/settings/profile', methods=['POST'])
 @login_required
@@ -73,23 +69,27 @@ async def settings_profile_post():
 
     new_name = form.get('username', type=str)
     new_email = form.get('email', type=str)
+    new_about_me = form.get('aboutme', type=str)
 
-    if new_name is None or new_email is None:
+    if new_name is None or new_email is None or new_about_me is None:
         return await flash('error', 'Invalid parameters.', 'home')
 
     old_name = session['user_data']['name']
     old_email = session['user_data']['email']
+    old_about_me = session['user_data']['about_me']
+    ts = datetime.fromtimestamp(session['user_data']['last_userchange']) + timedelta(weeks=1)
 
     # no data has changed; deny post
     if (
         new_name == old_name and
-        new_email == old_email
+        new_email == old_email and
+        old_about_me == new_about_me
     ):
         return await flash('error', 'No changes have been made.', 'settings/profile')
 
     if new_name != old_name:
-        if not session['user_data']['is_donator']:
-            return await flash('error', 'Username changes are currently a supporter perk.', 'settings/profile')
+        if time.mktime(ts.timetuple()) > time.time() and not session['user_data']['is_donator']:
+            return await flash('error', f"You're on cooldown! You can change your username again in {timeago.format(ts)}", 'settings/profile')
 
         # Usernames must:
         # - be within 2-15 characters in length
@@ -113,9 +113,9 @@ async def settings_profile_post():
         # username change successful
         await glob.db.execute(
             'UPDATE users '
-            'SET name = %s, safe_name = %s '
+            'SET name = %s, safe_name = %s, last_userchange = %s '
             'WHERE id = %s',
-            [new_name, safe_name, session['user_data']['id']]
+            [new_name, safe_name, session['user_data']['id'], time.time()]
         )
 
     if new_email != old_email:
@@ -136,10 +136,18 @@ async def settings_profile_post():
             [new_email, session['user_data']['id']]
         )
 
+    if new_about_me != old_about_me:
+        await glob.db.execute(
+            'UPDATE users '
+            'SET userpage_content = %s '
+            'WHERE id = %s',
+            [new_about_me, session['user_data']['id']]
+        )
+
     # logout
     session.pop('authenticated', None)
     session.pop('user_data', None)
-    return await flash('success', 'Your username/email have been changed! Please login again.', 'login')
+    return await flash('success', 'Your username/email/about me have been changed! Please login again.', 'login')
 
 @frontend.route('/settings/avatar')
 @login_required
@@ -151,7 +159,7 @@ async def settings_avatar():
 async def settings_avatar_post():
     # constants
     AVATARS_PATH = f'{glob.config.path_to_gulag}.data/avatars'
-    ALLOWED_EXTENSIONS = ['.jpeg', '.jpg', '.png']
+    ALLOWED_EXTENSIONS = ['.jpeg', '.jpg', '.png', '.gif']
 
     avatar = (await request.files).get('avatar')
 
@@ -159,11 +167,11 @@ async def settings_avatar_post():
     if avatar is None or not avatar.filename:
         return await flash('error', 'No image was selected!', 'settings/avatar')
 
-    filename, file_extension = os.path.splitext(avatar.filename.lower())
+    _, file_extension = os.path.splitext(avatar.filename.lower())
 
     # bad file extension; deny post
     if not file_extension in ALLOWED_EXTENSIONS:
-        return await flash('error', 'The image you select must be either a .JPG, .JPEG, or .PNG file!', 'settings/avatar')
+        return await flash('error', 'The image you select must be either a .JPG, .JPEG, .GIF or .PNG file!', 'settings/avatar')
 
     # remove old avatars
     for fx in ALLOWED_EXTENSIONS:
@@ -173,9 +181,19 @@ async def settings_avatar_post():
     # avatar cropping to 1:1
     pilavatar = Image.open(avatar.stream)
 
+    frames = []
+
+    if file_extension == '.gif':
+        while True:
+            try:
+                pilavatar.seek(pilavatar.tell() + 1)
+                frames.append(pilavatar)
+            except EOFError:
+                break
+
     # avatar change success
     pilavatar = utils.crop_image(pilavatar)
-    pilavatar.save(os.path.join(AVATARS_PATH, f'{session["user_data"]["id"]}{file_extension.lower()}'))
+    pilavatar.save(os.path.join(AVATARS_PATH, f'{session["user_data"]["id"]}{file_extension.lower()}'), save_all=True, append_images=frames)
     return await flash('success', 'Your avatar has been successfully changed!', 'settings/avatar')
 
 @frontend.route('/settings/custom')
@@ -316,7 +334,7 @@ async def profile_select(id):
     mode = request.args.get('mode', 'std', type=str) # 1. key 2. default value
     mods = request.args.get('mods', 'vn', type=str)
     user_data = await glob.db.fetch(
-        'SELECT name, safe_name, id, priv, country '
+        'SELECT name, safe_name, id, priv, country, userpage_content '
         'FROM users '
         'WHERE safe_name = %s OR id = %s LIMIT 1',
         [utils.get_safe_name(id), id]
@@ -343,7 +361,7 @@ async def profile_select(id):
 
     badges = []
 
-    if user_data["priv"] & Privileges.Dangerous or user_data["id"] == 4:
+    if user_data["priv"] & Privileges.Dangerous:
         badges.append(("Developer", "fa-code", 7))
     if user_data["priv"] & Privileges.Admin:
         badges.append(("Administrator", "fa-user", 9.6))
@@ -355,6 +373,16 @@ async def profile_select(id):
         badges.append(("Donator", "fa-dollar-sign", 11.4))
     if user_data["priv"] & Privileges.Whitelisted:
         badges.append(("Verified", "fa-check", 9.6))
+
+    ## Custom badges
+    if user_data["id"] == 3:
+        badges.append(("Skylar <3", "fa-paw", 7))
+    elif user_data["id"] == 7:
+        badges.append(("Racist", "fa-church", 7))
+    elif user_data["id"] == 105:
+        badges.append(("Reverse Slider", "fa-solid fa-c", 7))
+    elif user_data["id"] == 83:
+        badges.append(("Emperor", "fa-chess-king", 7))
 
     user_data['customisation'] = utils.has_profile_customizations(user_data['id'])
     return await render_template('profile.html', user=user_data, mode=mode, mods=mods, badges=badges)
@@ -392,7 +420,7 @@ async def login_post():
     # check if account exists
     user_info = await glob.db.fetch(
         'SELECT id, name, email, priv, '
-        'pw_bcrypt, silence_end '
+        'pw_bcrypt, silence_end, userpage_content, last_userchange '
         'FROM users '
         'WHERE safe_name = %s',
         [utils.get_safe_name(username)]
@@ -448,7 +476,9 @@ async def login_post():
         'name': user_info['name'],
         'email': user_info['email'],
         'priv': user_info['priv'],
+        'about_me': user_info['userpage_content'],
         'silence_end': user_info['silence_end'],
+        'last_userchange': user_info['last_userchange'],
         'is_staff': user_info['priv'] & Privileges.Staff != 0,
         'is_donator': user_info['priv'] & Privileges.Donator != 0
     }

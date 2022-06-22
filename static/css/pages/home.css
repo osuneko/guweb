@@ -26,6 +26,7 @@
 
 #title, #mascot {
   animation: appear 0.4s ease;
+  text-align: center;
 }
 
 @-webkit-keyframes appear {
@@ -62,7 +63,7 @@
 }
 
 .splash {
-  background: hsl(var(--main), 40%, 40%);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.527),rgba(0, 0, 0, 0.5)) , url(/static/images/bg.gif);
 }
 
 .footer {

@@ -23,7 +23,7 @@
               <div class="field">
                 <p class="control">
                   <input class="input" type="text" name="username"
-                  value="{{ session.user_data['name'] }}" {% if not session.user_data['is_donator'] %}readonly{% endif %}>
+                  value="{{ session.user_data['name'] }}" {% if fromts > ts and not session.user_data['is_donator'] %}readonly{% endif %}>
                 </p>
               </div>
             </div>
@@ -40,6 +40,22 @@
               <div class="field">
                 <p class="control">
                   <input class="input" type="email" name="email" value="{{ session.user_data['email'] }}">
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="single-block-content">
+          <div class="block-content--left">
+            <div class="field-label is-normal">
+              <label class="label">About me</label>
+            </div>
+          </div>
+          <div class="block-content--right">
+            <div class="field-body">
+              <div class="field">
+                <p class="control">
+                  <input class="input" type="text" name="aboutme" value="{{ session.user_data['about_me'] }}">
                 </p>
               </div>
             </div>

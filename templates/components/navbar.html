@@ -1,7 +1,7 @@
 <nav id="navbar" class="navbar is-primary">
     <div class="navbar-brand">
         <a class="navbar-item navbar-logo" href="/home">
-            <div class="navbar-logo"></div>{{ appName() }}
+            {{ appName() }}
         </a>
 
         <a role="button" class="navbar-burger" id="navbar-burger" onclick="togglenavbar()">
@@ -20,8 +20,15 @@
             <a class="navbar-item" href="/leaderboard">
                 Leaderboards
             </a>
+            <a class="navbar-item" href="https://docs.nekos.cc/information/rules">
+                Rules
+            </a>
+            <a class="navbar-item" href="https://web.nekos.cc">
+                Webosu!
+            </a>
 
-            <div class="navbar-item has-dropdown is-hoverable">
+
+            <!--<div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link">
                     Information
                 </a>
@@ -33,11 +40,11 @@
                         Discord
                     </a>
                     <hr class="navbar-divider">
-                    <a class="navbar-item" href="https://github.com/cs0su/guweb/issues/new">
+                    <a class="navbar-item" href="https://github.com/varkaria/guweb/issues/new">
                         Report an issue
                     </a>
                 </div>
-            </div>
+            </div>-->
 
             {% if session.authenticated and session.user_data['is_staff'] %}
             <a class="navbar-item" href="/admin">

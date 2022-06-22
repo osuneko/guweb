@@ -19,6 +19,7 @@ from objects import glob
 
 app = Quart(__name__)
 app.config["PERMANENT_SESSION_LIFETIME"] = 86300000
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 version = Version(1, 3, 0)
 

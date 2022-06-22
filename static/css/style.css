@@ -27,7 +27,6 @@ html {
 .main-block {
   width: inherit;
   background: hsl(var(--main), 10%, 15%);
-
 }
 
 /* stuffs */
@@ -154,11 +153,6 @@ a.foot-link {
   position: relative;
 }
 
-.mode-cs0::before {
-  content: "\E804";
-  position: relative;
-}
-
 /* layout */
 
 #app {
@@ -184,18 +178,6 @@ a.foot-link {
 .navbar-logo {
   font-size: 22px;
   font-weight: 500;
-}
-
-.navbar-logo-icon {
-  background-image: url(/static/favicon/android-chrome-256x256.png);
-  background-repeat: no-repeat;
-  width: 32px;
-  height: 32px;
-  margin: 0;
-  padding: 0;
-  position: relative;
-  right: 4px;
-  background-size: contain;
 }
 
 .navbar.is-spaced {

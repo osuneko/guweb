@@ -56,10 +56,6 @@
             @click="LoadLeaderboard(sort, 'mania', mods)">
                 <i class="mode-icon mode-mania"></i><span class="modetext"> osu!mania</span>
             </a>
-            <a class="mode-select" v-bind:class="{ 'active': mode === 'cs0' }"
-            @click="LoadLeaderboard(sort, 'cs0', mods)">
-                <i class="mode-icon mode-cs0"></i><span class="modetext"> osu!cs0</span>
-            </a>
         </div>
         <div class="banner-text">Leaderboard</div>
         <div class="selector">
@@ -74,8 +70,6 @@
                 @click="LoadLeaderboard(sort, mode, 'vn')">Vanilla</a>
                 <a class="simple-banner-switch" v-bind:class=" { 'active': mods === 'rx', 'disabled': mode === 'mania' }"
                 @click="LoadLeaderboard(sort, mode, 'rx')">Relax</a>
-                <a class="simple-banner-switch" v-bind:class=" { 'active': mods === 'ap', 'disabled': mode === 'taiko' || mode === 'catch' || mode === 'mania'  }"
-                @click="LoadLeaderboard(sort, mode, 'ap')">Autopilot</a>
             </div>
         </div>
     </div>

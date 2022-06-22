@@ -1,24 +1,3 @@
-<!-- HTML Meta Tags -->
-<title>{{ user['name'] }}'s Profile - {{ appName() }}</title>
-<meta name="description" content="{{ user['name'] }}'s profile on {{ appName() }} - An osu! private server with many unique features!">
-
-<!-- Google / Search Engine Tags -->
-<meta itemprop="name" content="{{ user['name'] }}'s Profile - {{ appName() }}">
-<meta itemprop="description" content="{{ user['name'] }}'s profile on {{ appName() }} - An osu! private server with many unique features!">
-<meta itemprop="image" content="http://a.{{ domain() }}/{{ user['id'] }}">
-
-<!-- Facebook Meta Tags -->
-<meta property="og:url" content="https://{{ domain() }}/u/{{ user['id'] }}">
-<meta property="og:type" content="website">
-<meta property="og:title" content="{{ user['name'] }}'s Profile - {{ appName() }}">
-<meta property="og:description" content="{{ user['name'] }}'s profile on {{ appName() }} - An osu! private server with many unique features!">
-<meta property="og:image" content="http://a.{{ domain() }}/{{ user['id'] }}">
-
-<!-- Twitter Meta Tags -->
-<meta name="twitter:title" content="{{ user['name'] }}'s Profile - {{ appName() }}">
-<meta name="twitter:description" content="{{ user['name'] }}'s profile on {{ appName() }} - An osu! private server with many unique features!">
-<meta name="twitter:image" content="http://a.{{ domain() }}/{{ user['id'] }}">
-
 {% extends 'base.html' %}
 {% block title %} Profile {% endblock %}
 
@@ -26,6 +5,21 @@
 
 {% macro playstats(map) %}
 <span style="color: rgb(180, 230, 255)"><% getStarRating(map) %></span> <span style="color: rgb(200, 200, 200);"><%("+" + map[`mods_readable`] + " ").replace("NM", "").replace("RXNC", "NCRX").replace("APNC", "NCAP").replace("HDHRNC", "HDNCHR").replace("NFNC", "NCNF").replace("DTNC", "NC").replace("+ ", " ") %></span><span style="display: inline-block" v-if="map['perfect'] != 1"><% map['max_combo'] %>/</span><% map['beatmap']['max_combo'] %>x <span style="display: inline-block; color: rgb(245, 215, 16);" v-if="map['perfect'] == 1">FC</span> [ <span style="color: rgb(178, 219, 232);">⬤</span> <% addCommas(map['n300']) %><b>/</b> <span style="color: rgb(172, 235, 140);">⬤</span> <% addCommas(map['n100']) %><b>/</b> <span style="color: rgb(232, 213, 167);">⬤</span> <% addCommas(map['n50']) %><b>/</b> <span style="color: rgb(254, 179, 179);">⬤</span> <% addCommas(map['nmiss']) %> ]
+{% endmacro %}
+
+{% macro userpage(user) %}
+    {% if user['userpage_content'] != "" and user['userpage_content'] != None %}
+        <div class="log-block">
+            <div class="header">
+                <div class="title">
+                    <i class="fas fa-address-book"></i> About me
+                </div>
+            </div>
+            <span>
+                {{ user['userpage_content'] }}
+            </span>
+        </div>
+    {% endif %}
 {% endmacro %}
 
 {% macro scores(title, id) %}
@@ -150,10 +144,33 @@
 {% endmacro %}
 
 {% block header %}
-<script src="/static/js/asserts/vue.js"></script>
-<script src="/static/js/asserts/vue-axios.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/timeago.js/4.0.2/timeago.min.js"></script>
-<link rel="stylesheet" href="/static/css/pages/profile.css">
+<head>
+    <script src="/static/js/asserts/vue.js"></script>
+    <script src="/static/js/asserts/vue-axios.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/timeago.js/4.0.2/timeago.min.js"></script>
+    <link rel="stylesheet" href="/static/css/pages/profile.css">
+
+    <!-- HTML Meta Tags -->
+    <title>{{ user['name'] }}'s Profile - {{ appName() }}</title>
+    <meta name="description" content="{{ user['name'] }}'s profile on {{ appName() }} - An osu! private server with many unique features!">
+
+    <!-- Google / Search Engine Tags -->
+    <meta itemprop="name" content="{{ user['name'] }}'s Profile - {{ appName() }}">
+    <meta itemprop="description" content="{{ user['name'] }}'s profile on {{ appName() }} - An osu! private server with many unique features!">
+    <meta itemprop="image" content="http://a.{{ domain() }}/{{ user['id'] }}">
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://{{ domain() }}/u/{{ user['id'] }}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ user['name'] }}'s Profile - {{ appName() }}">
+    <meta property="og:description" content="{{ user['name'] }}'s profile on {{ appName() }} - An osu! private server with many unique features!">
+    <meta property="og:image" content="http://a.{{ domain() }}/{{ user['id'] }}">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:title" content="{{ user['name'] }}'s Profile - {{ appName() }}">
+    <meta name="twitter:description" content="{{ user['name'] }}'s profile on {{ appName() }} - An osu! private server with many unique features!">
+    <meta name="twitter:image" content="http://a.{{ domain() }}/{{ user['id'] }}">
+</head>
 
 <script>
     var userid = Number("{{ user['id'] }}"); //For text editor doesn't dizzy lmao
@@ -215,10 +232,7 @@
                     <a class="simple-banner-switch" v-bind:class="{ 'selected': mode === 'mania', 'disabled': mods === 'ap' || mods === 'rx' }"
                         @click="ChangeModeMods('mania',mods)"><i class="mode-icon mode-mania"></i><span
                             class="mode-text">osu!mania</span></a>
-                  <a class="simple-banner-switch" v-bind:class="{ 'selected': mode === 'cs0' }"
-                        @click="ChangeModeMods('cs0',mods)"><i class="mode-icon mode-cs0"></i><span
-                            class="mode-text">osu!cs0</span></a>
-                </div>
+                                 </div>
                 <div class="select-right">
                     <a class="simple-banner-switch" v-bind:class=" { 'selected': mods === 'vn' }"
                         @click="ChangeModeMods(mode,'vn')"><span class="mods-fulltext">Vanilla</span>
@@ -226,9 +240,6 @@
                     <a class="simple-banner-switch" v-bind:class=" { 'selected': mods === 'rx', 'disabled': mode === 'mania' }"
                         @click="ChangeModeMods(mode,'rx')"><span class="mods-fulltext">Relax</span>
                         <span class="mods-shorttext">RX</span></a>
-                    <a class="simple-banner-switch" v-bind:class=" { 'selected': mods === 'ap', 'disabled': mode === 'taiko' || mode === 'catch' || mode === 'mania'  }"
-                        @click="ChangeModeMods(mode,'ap')"><span class="mods-fulltext">Autopilot</span><span
-                            class="mods-shorttext">AP</span></a>
                 </div>
             </div>
             <div class="bar-selection badge-selects">
@@ -380,6 +391,7 @@
                 </div>-->
             </div>
             <div class="column">
+                {{ userpage(user) }}
                 {{ scores('Best Scores', 'best')}}
                 {{ scores('Recent Scores', 'recent')}}
                 {{ maps('Most Beatmaps Played', 'most')}}
