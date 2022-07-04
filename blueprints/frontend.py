@@ -69,21 +69,18 @@ async def settings_profile_post():
 
     new_name = form.get('username', type=str)
     new_email = form.get('email', type=str)
-    new_about_me = form.get('aboutme', type=str)
 
-    if new_name is None or new_email is None or new_about_me is None:
+    if new_name is None or new_email is None:
         return await flash('error', 'Invalid parameters.', 'home')
 
     old_name = session['user_data']['name']
     old_email = session['user_data']['email']
-    old_about_me = session['user_data']['about_me']
     ts = datetime.fromtimestamp(session['user_data']['last_userchange']) + timedelta(weeks=1)
 
     # no data has changed; deny post
     if (
         new_name == old_name and
-        new_email == old_email and
-        old_about_me == new_about_me
+        new_email == old_email
     ):
         return await flash('error', 'No changes have been made.', 'settings/profile')
 
@@ -134,14 +131,6 @@ async def settings_profile_post():
             'SET email = %s '
             'WHERE id = %s',
             [new_email, session['user_data']['id']]
-        )
-
-    if new_about_me != old_about_me:
-        await glob.db.execute(
-            'UPDATE users '
-            'SET userpage_content = %s '
-            'WHERE id = %s',
-            [new_about_me, session['user_data']['id']]
         )
 
     # logout
@@ -195,6 +184,42 @@ async def settings_avatar_post():
     pilavatar = utils.crop_image(pilavatar)
     pilavatar.save(os.path.join(AVATARS_PATH, f'{session["user_data"]["id"]}{file_extension.lower()}'), save_all=True, append_images=frames)
     return await flash('success', 'Your avatar has been successfully changed!', 'settings/avatar')
+
+@frontend.route('/settings/userpage')
+@login_required
+async def userpage():
+    profile_customizations = utils.has_profile_customizations(session['user_data']['id'])
+    return await render_template('settings/userpage.html', customizations=profile_customizations)
+
+@frontend.route('/settings/userpage', methods=['POST'])
+@login_required
+async def settings_userpage_post():
+    form = await request.form
+    new_about_me = form.get('aboutme', type=str)
+    new_usernameaka = form.get('username_aka', type=str)
+
+    if new_about_me is None:
+        return await flash('error', 'Invalid parameters.', 'home')
+    
+    old_about_me = session['user_data']['about_me']
+    
+    if new_about_me:
+        await glob.db.execute(
+            'UPDATE users '
+            'SET userpage_content = %s '
+            'WHERE id = %s',
+            [new_userpage, session['user_data']['id']]
+        )
+
+    if new_usernameaka:
+        await glob.db.execute(
+            'UPDATE users '
+            'SET username_aka = %s '
+            'WHERE id = %s',
+            [new_usernameaka, session['user_data']['id']]
+        )
+
+    return await flash_with_customizations('success', 'Your Userpage has been successfully changed!', 'settings/userpage')
 
 @frontend.route('/settings/custom')
 @login_required
